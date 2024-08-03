@@ -1,12 +1,5 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using System;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoBackgroundAudio
 {
@@ -14,15 +7,14 @@ namespace NoBackgroundAudio
     {
         public void OnVerified(VerifiedEventArgs ev)
         {
-            if (ev.Player != null)
-                Server.RunCommand($"/pfx mutesoundtrack {Plugin.NoBackgroundAudio.Singleton.Config.EffectIntensity} 0 {ev.Player.Id}", Server.Host.Sender);
-            GameConsoleCommandHandler.Create();
+            if (ev.Player != null && Plugin.Singleton.Config.RemoveBackgroundSfxOnJoin)
+                Server.ExecuteCommand($"/pfx mutesoundtrack {Plugin.Singleton.Config.EffectIntensity} 0 {ev.Player.Id}", Server.Host.Sender);
         }
 
         public void OnChangeRole(ChangingRoleEventArgs ev)
         {
-            if (ev.Player != null)
-                Server.RunCommand($"/pfx mutesoundtrack {Plugin.NoBackgroundAudio.Singleton.Config.EffectIntensity} 0 {ev.Player.Id}", Server.Host.Sender);
+            if (ev.Player != null && Plugin.Singleton.Config.RemoveBackgroundSfxOnRole)
+                Server.ExecuteCommand($"/pfx mutesoundtrack {Plugin.Singleton.Config.EffectIntensity} 0 {ev.Player.Id}", Server.Host.Sender);
         }
     }
 }
